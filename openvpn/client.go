@@ -335,3 +335,10 @@ func (c *MgmtClient) simpleCommand(cmd string) ([]byte, error) {
 	}
 	return c.readCommandResult()
 }
+
+func (c *MgmtClient) Close() error {
+	if c.wr == nil {
+		return nil
+	}
+	return c.wr.(net.Conn).Close()
+}
