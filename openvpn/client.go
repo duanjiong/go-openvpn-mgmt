@@ -6,6 +6,7 @@ import (
 	"io"
 	"net"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/apparentlymart/go-openvpn-mgmt/demux"
@@ -196,8 +197,11 @@ func (c *MgmtClient) SendSignal(name string) error {
 }
 
 func (c *MgmtClient) ClientKill(name string) error {
-	msg := fmt.Sprintf("kill %q", name)
+	msg := fmt.Sprintf("kill %s", name)
 	_, err := c.simpleCommand(msg)
+	if err != nil && strings.Contains(err.Error(), "not found") {
+		return nil
+	}
 	return err
 }
 
