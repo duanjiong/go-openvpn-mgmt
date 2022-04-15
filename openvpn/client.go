@@ -195,6 +195,12 @@ func (c *MgmtClient) SendSignal(name string) error {
 	return err
 }
 
+func (c *MgmtClient) ClientKill(name string) error {
+	msg := fmt.Sprintf("kill %q", name)
+	_, err := c.simpleCommand(msg)
+	return err
+}
+
 // LatestState retrieves the most recent StateEvent from the server. This
 // can either be used to poll the state or it can be used to determine the
 // initial state after calling SetStateEvents(true) but before the first
